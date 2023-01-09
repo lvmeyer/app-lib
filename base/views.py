@@ -39,6 +39,11 @@ def loginPage(request):
     return render(request, 'base/login_register.html')
 
 
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
+
+
 def room(request, pk):
     room = Room.objects.get(id=pk)
     context = {'room': room}
