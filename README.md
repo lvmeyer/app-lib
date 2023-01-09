@@ -4,6 +4,8 @@
 
 docker-compose build
 docker-compose up
+docker-compose exec web python3 manage.py migrate
+python3 manage.py createsuperuser
 
 ## Commands
 
@@ -12,8 +14,6 @@ python3 manage.py makemigrations
 python3 manage.py migrate
 
 <!-- to create admin user -->
-
-python3 manage.py createsuperuser
 
 ### apps
 
