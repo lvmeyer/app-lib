@@ -1,5 +1,10 @@
 # app-lib
 
+## Setup
+
+docker-compose build
+docker-compose up
+
 ## Commands
 
 python3 manage.py runserver
