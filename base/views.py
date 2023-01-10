@@ -75,6 +75,16 @@ def registerPage(request):
     return render(request, 'base/login_register.html', {'form': form})
 
 
+# ============== USER ======================
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    room_messages = user.message_set.all()
+    topics = Topic.objects.all()
+    context = {'user': user, 'rooms': rooms, 'room_messages': room_messages, 'topics': topics}
+    
+    return render(request, 'base/profile.html', context)
+
 # ============== ROOM ======================
 def room(request, pk):
     room = Room.objects.get(id=pk)
