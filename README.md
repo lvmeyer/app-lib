@@ -2,12 +2,25 @@
 
 ## Setup
 
+```bash
 docker-compose build
-docker-compose up
-docker-compose python3 manage.py makemigrations
-docker-compose exec web python3 manage.py migrate
+```
 
-python3 manage.py createsuperuser
+```bash
+docker-compose up
+```
+
+```bash
+docker-compose python3 manage.py makemigrations
+```
+
+```bash
+docker-compose exec web python3 manage.py migrate
+```
+
+```bash
+docker-compose exec web python3 manage.py createsuperuser
+```
 
 ## Commands
 
