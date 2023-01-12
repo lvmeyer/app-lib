@@ -4,13 +4,13 @@
 	</div>
 	<ul class="topics__list">
 		<li>
-			<a href="{% url 'home' %}" class="active"
+			<a href="{% url 'forum-home' %}" class="active"
 				>All <span>{{ topics.count }}</span></a
 			>
 		</li>
 		{% for topic in topics%}
 		<li>
-			<a href="{% url 'home' %}?q={{topic.name}}"
+			<a href="{% url 'forum-home' %}?q={{topic.name}}"
 				>{{ topic.name }}<span>{{topic.room_set.all.count}}</span></a
 			>
 		</li>

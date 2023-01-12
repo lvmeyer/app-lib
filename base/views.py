@@ -9,21 +9,7 @@ from .models import User, Room, Topic, Message
 from .forms import RoomForm, MyUserCreationForm
 
 def home(request):
-    q = request.GET.get('q') if request.GET.get('q') != None else ''
-    rooms = Room.objects.filter(
-        Q(topic__name__icontains=q) | 
-        Q(name__icontains=q) | 
-        Q(description__icontains=q)
-    )
-    topics = Topic.objects.all()
-    # room_count = Room.objects.all().count()
-    room_count = rooms.count()
-    room_messages = Message.objects.filter(
-        Q(room__topic__name__icontains=q)
-    )
-
-    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'room_messages': room_messages}
-    return render(request, 'base/home.html', context)
+    return render(request, 'base/home.html')
 
 # ============== AUTH ======================
 def loginPage(request):
@@ -96,7 +82,26 @@ def updateUser(request):
 
     return render(request, 'base/update_user.html', {'form': form})
 
+
 # ============== ROOM ======================
+def homeForum(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    rooms = Room.objects.filter(
+        Q(topic__name__icontains=q) | 
+        Q(name__icontains=q) | 
+        Q(description__icontains=q)
+    )
+    topics = Topic.objects.all()
+    # room_count = Room.objects.all().count()
+    room_count = rooms.count()
+    room_messages = Message.objects.filter(
+        Q(room__topic__name__icontains=q)
+    )
+
+    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count, 'room_messages': room_messages}
+    return render(request, 'forum/home_forum.html', context)
+
+
 def room(request, pk):
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all()
@@ -112,7 +117,7 @@ def room(request, pk):
         return redirect('room', pk=room.id)
 
     context = {'room': room, 'room_messages': room_messages, 'participants': participants}
-    return render(request, 'base/room.html', context)
+    return render(request, 'forum/room.html', context)
 
 
 @login_required(login_url='login')
@@ -130,10 +135,10 @@ def createRoom(request):
             name=request.POST.get('name'),
             description=request.POST.get('description')
         )
-        return redirect('home')
+        return redirect('forum-home')
     context = {'form': form, 'topics': topics}
     
-    return render(request, 'base/room_form.html', context)
+    return render(request, 'forum/room_form.html', context)
 
 
 @login_required(login_url='login')
@@ -152,10 +157,10 @@ def updateRoom(request, pk):
         room.topic = topic
         room.description = request.POST.get('description')
         room.save()
-        return redirect('home')
+        return redirect('forum-home')
 
     context = {'form': form, 'topics': topics, 'room': room}
-    return render(request, 'base/room_form.html', context)
+    return render(request, 'forum/room_form.html', context)
 
 
 @login_required(login_url='login')
@@ -167,9 +172,9 @@ def deleteRoom(request, pk):
 
     if request.method == 'POST':
         room.delete()
-        return redirect('home')
+        return redirect('forum-home')
 
-    return render(request, 'base/delete_room.html', {'obj': room})
+    return render(request, 'forum/delete_room.html', {'obj': room})
 
 
 @login_required(login_url='login')
@@ -181,6 +186,6 @@ def deleteMessage(request, pk):
 
     if request.method == 'POST':
         message.delete()
-        return redirect('home')
+        return redirect('forum-home')
 
-    return render(request, 'base/delete_room.html', {'obj': message})    
+    return render(request, 'forum/delete_room.html', {'obj': message})    
