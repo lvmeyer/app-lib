@@ -1,0 +1,76 @@
+[
+	{
+		"model": "base.user",
+		"pk": 1,
+		"fields": {
+			"username": "seller1",
+			"email": "seller1@one.com",
+			"password": "seller",
+			"role": 2
+		}
+	},
+	{
+		"model": "base.user",
+		"pk": 2,
+		"fields": {
+			"username": "seller2",
+			"email": "seller2@one.com",
+			"password": "seller",
+			"role": 2
+		}
+	},
+	{
+		"model": "base.user",
+		"pk": 3,
+		"fields": {
+			"username": "seller3",
+			"email": "seller3@one.com",
+			"password": "seller",
+			"role": 2
+		}
+	},
+
+	{
+		"model": "base.user",
+		"pk": 4,
+		"fields": {
+			"username": "user1",
+			"email": "user@one.com",
+			"password": "user",
+			"role": 1
+		}
+	},
+
+	{
+		"model": "base.user",
+		"pk": 5,
+		"fields": {
+			"username": "user2",
+			"email": "user@two.com",
+			"password": "user",
+			"role": 1
+		}
+	},
+
+	{
+		"model": "base.user",
+		"pk": 6,
+		"fields": {
+			"username": "user3",
+			"email": "user@three.com",
+			"password": "user",
+			"role": 1
+		}
+	},
+
+	{
+		"model": "base.user",
+		"pk": 7,
+		"fields": {
+			"username": "user4",
+			"email": "user@four.com",
+			"password": "user",
+			"role": 1
+		}
+	}
+]

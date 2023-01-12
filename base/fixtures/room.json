@@ -1,0 +1,103 @@
+[
+	{
+		"model": "base.room",
+		"pk": 1,
+		"fields": {
+			"host": 4,
+			"topic": 1,
+			"name": "Orgueil et préjugés",
+			"created": "2019-01-01T00:00:00Z",
+			"updated": "2019-01-01T01:00:00Z"
+		}
+	},
+	{
+		"model": "base.room",
+		"pk": 2,
+		"fields": {
+			"host": 4,
+			"topic": 1,
+			"name": "Outlander",
+			"created": "2020-01-01T00:00:00Z",
+			"updated": "2020-01-01T01:00:00Z"
+		}
+	},
+	{
+		"model": "base.room",
+		"pk": 3,
+		"fields": {
+			"host": 5,
+			"topic": 1,
+			"name": "The Notebook",
+			"created": "2021-01-01T00:00:00Z",
+			"updated": "2021-01-01T01:00:00Z"
+		}
+	},
+	{
+		"model": "base.room",
+		"pk": 4,
+		"fields": {
+			"host": 5,
+			"topic": 1,
+			"name": "Les aventures de Tom Sawyer",
+			"created": "2019-01-01T00:00:00Z",
+			"updated": "2019-01-01T01:00:00Z"
+		}
+	},
+
+	{
+		"model": "base.room",
+		"pk": 5,
+		"fields": {
+			"host": 5,
+			"topic": 2,
+			"name": "Les aventures de Huckleberry Finn",
+			"created": "2023-01-01T00:00:00Z",
+			"updated": "2023-01-01T01:00:00Z"
+		}
+	},
+	{
+		"model": "base.room",
+		"pk": 6,
+		"fields": {
+			"host": 5,
+			"topic": 2,
+			"name": "Les Trois Mousquetaires",
+			"created": "2023-01-01T00:00:00Z",
+			"updated": "2023-01-01T01:00:00Z"
+		}
+	},
+	{
+		"model": "base.room",
+		"pk": 7,
+		"fields": {
+			"host": 6,
+			"topic": 2,
+			"name": "Les Voyages de Gulliver",
+			"created": "2023-05-01T00:00:00Z",
+			"updated": "2023-05-01T01:00:00Z"
+		}
+	},
+
+	{
+		"model": "base.room",
+		"pk": 8,
+		"fields": {
+			"host": 5,
+			"topic": 3,
+			"name": "Les Neuf Cercles du Cauchemar",
+			"created": "2023-06-01T00:00:00Z",
+			"updated": "2023-06-01T01:00:00Z"
+		}
+	},
+	{
+		"model": "base.room",
+		"pk": 9,
+		"fields": {
+			"host": 5,
+			"topic": 3,
+			"name": "Le Meurtre de Roger Ackroyd",
+			"created": "2023-10-01T00:00:00Z",
+			"updated": "2023-10-01T01:00:00Z"
+		}
+	}
+]

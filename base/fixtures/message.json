@@ -1,0 +1,35 @@
+[
+	{
+		"model": "base.message",
+		"pk": 1,
+		"fields": {
+			"user": 5,
+			"room": 1,
+			"body": "Quelle livre !!",
+			"created": "2023-01-01 03:00:00",
+			"updated": "2023-01-02 03:00:00"
+		}
+	},
+	{
+		"model": "base.message",
+		"pk": 2,
+		"fields": {
+			"user": 6,
+			"room": 1,
+			"body": "Tellement !!",
+			"created": "2023-01-10 03:00:00",
+			"updated": "2023-01-11 03:00:00"
+		}
+	},
+	{
+		"model": "base.message",
+		"pk": 3,
+		"fields": {
+			"user": 7,
+			"room": 1,
+			"body": "Bof -_-",
+			"created": "2023-01-05 03:00:00",
+			"updated": "2023-01-06 03:00:00"
+		}
+	}
+]

@@ -3,23 +3,23 @@
 ## Setup
 
 ```bash
-docker-compose build
+make build
 ```
 
 ```bash
-docker-compose up
+make start
 ```
 
 ```bash
-docker-compose exec web python3 manage.py makemigrations
+make migrations
 ```
 
 ```bash
-docker-compose exec web python3 manage.py migrate
+make migrate
 ```
 
 ```bash
-docker-compose exec web python3 manage.py createsuperuser
+make superuser
 ```
 
 ## Commands

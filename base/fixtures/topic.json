@@ -1,0 +1,23 @@
+[
+	{
+		"model": "base.topic",
+		"pk": 1,
+		"fields": {
+			"name": "Romance"
+		}
+	},
+	{
+		"model": "base.topic",
+		"pk": 2,
+		"fields": {
+			"name": "Aventure"
+		}
+	},
+	{
+		"model": "base.topic",
+		"pk": 3,
+		"fields": {
+			"name": "Suspense"
+		}
+	}
+]
