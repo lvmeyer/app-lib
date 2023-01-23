@@ -1,0 +1,97 @@
+{% extends 'main.html' %} {% block content %}
+<main class="create-room layout">
+	<div class="container">
+		<div class="layout__box">
+			<div class="layout__boxHeader">
+				<div class="layout__boxTitle">
+					<a href="{{request.META.HTTP_REFERER}}">
+						<svg
+							version="1.1"
+							xmlns="http://www.w3.org/2000/svg"
+							width="32"
+							height="32"
+							viewBox="0 0 32 32"
+						>
+							<title>arrow-left</title>
+							<path
+								d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"
+							></path>
+						</svg>
+					</a>
+					<h3>Create/Update book</h3>
+				</div>
+			</div>
+			<div class="layout__body">
+				<form class="form" action="" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="form__group">
+						<label for="book_collection">Enter a collection</label>
+						<input
+							required
+							type="text"
+							value="{{book.collection.name}}"
+							name="collection"
+							list="collection-list"
+                            id="id_collection"
+						/>
+						<datalist id="collection-list">
+							<select id="book_collection">
+								{% for collection in collections %}
+								<option value="{{collection.name}}">{{collection.name}}</option>
+								{% endfor %}
+							</select>
+						</datalist>
+					</div>
+
+					<div class="form__group">
+						<label for="book_title">Book Title</label>
+						{{form.title}}
+					</div>
+
+                    <div class="form_group" style="padding-bottom: 15px">
+                        <label for="book_cover">Book Cover</label>
+                        <br/>
+                        {{form.cover}}
+                    </div>
+
+                    <div class="form__group">
+						<label for="book_author">Author</label>
+						{{form.author}}
+					</div>
+
+                    <div class="form__group">
+						<label for="id_genre">Enter a genre</label>
+						<input
+							required
+							type="text"
+							value="{{book.genre.name}}"
+							name="genre"
+							list="genre-list"
+                            id="id_genre"
+						/>
+						<datalist id="genre-list">
+							<select id="book_genre">
+								{% for genre in genres %}
+								<option value="{{genre.name}}">{{genre.name}}</option>
+								{% endfor %}
+							</select>
+						</datalist>
+					</div>
+
+                    <div class="form__group">
+						<label for="book_publisher">Book Publisher</label>
+						{{form.publisher}}
+					</div>
+
+					<div class="form__action">
+						<a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}"
+							>Cancel</a
+						>
+						<button class="btn btn--main" type="submit">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock content %}

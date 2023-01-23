@@ -1,0 +1,23 @@
+[
+	{
+		"model": "base.genre",
+		"pk": 1,
+		"fields": {
+			"name": "Romance"
+		}
+	},
+	{
+		"model": "base.genre",
+		"pk": 2,
+		"fields": {
+			"name": "Triller"
+		}
+	},
+	{
+		"model": "base.genre",
+		"pk": 3,
+		"fields": {
+			"name": "Fantastic"
+		}
+	}
+]

@@ -23,3 +23,10 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+
+  adminer:
+    image: adminer
+    ports:
+      - 8081:8080
+    depends_on:
+      - db

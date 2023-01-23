@@ -865,3 +865,39 @@ a {
 	color: var(--color-main);
 	font-weight: 1.4rem;
 }
+
+/* BOOK */
+.bookList {
+	width: 100%;
+}
+.bookList__item {
+	display: flex;
+	align-items: center;
+	gap: 3rem;
+	margin-bottom: 1rem;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-content: flex-start;
+}
+
+.bookItem {
+	margin-bottom: 2.4rem;
+	background-color: var(--color-dark);
+	border-radius: 1rem;
+	padding: 2rem;
+	width: 27rem;
+}
+
+.bookItem_action {
+	display: flex;
+	float: right;
+	width: 20px;
+}
+
+.title {
+	font-size: 2rem;
+	font-weight: 500;
+	margin-bottom: 1rem;
+	color: var(--color-light);
+	transition: all 0.3s ease-in-out;
+}
