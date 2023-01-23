@@ -3,10 +3,13 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.db.models import Q
+from django.db.models import Case, When, Value
+from applib.decorators import seller_required
 
-from .models import User, Room, Topic, Message
-from .forms import RoomForm, MyUserCreationForm
+from .models import User, Room, Topic, Message, Book, Collection, Genre
+from .forms import RoomForm, MyUserCreationForm, BookForm
 
 def home(request):
     return render(request, 'base/home.html')
@@ -32,7 +35,7 @@ def loginPage(request):
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'Username or Password does not exist')
+            messages.error(request, f"Username or Password does not exist")
 
     context = {'page': page}
     return render(request, 'base/login_register.html', context)
@@ -54,7 +57,7 @@ def registerPage(request):
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'An error occured during registration')
+            messages.error(request, f'An error occured during registration')
 
     return render(request, 'base/login_register.html', {'form': form})
 
@@ -189,3 +192,77 @@ def deleteMessage(request, pk):
         return redirect('forum-home')
 
     return render(request, 'forum/delete_room.html', {'obj': message})    
+
+
+# ============== BOOK ======================
+@login_required(login_url='login')
+def books(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    books = Book.objects.filter(
+        Q(collection__name__icontains=q) | 
+        Q(genre__name__icontains=q) | 
+        Q(title__icontains=q) | 
+        Q(publisher__icontains=q) | 
+        Q(author__icontains=q)
+    )
+    context = {'books': books}
+    return render(request, 'book/book.html', context) 
+
+@login_required(login_url='login')
+@seller_required
+def create_book(request):
+    form = BookForm()
+    collections = Collection.objects.all()
+    genres = Genre.objects.all()
+    if request.method == 'POST':
+        collection_name = request.POST.get('collection')
+        collection, create = Collection.objects.get_or_create(name=collection_name)
+        
+        genre_name = request.POST.get('genre')
+        genre, create = Genre.objects.get_or_create(name=genre_name)
+
+        cover = 'covers/default.jpeg'
+        if request.FILES:
+            cover = request.FILES['cover']
+        Book.objects.create(
+            genre=genre,
+            collection=collection,
+            title=request.POST.get('title'),
+            author=request.POST.get('author'),
+            publisher=request.POST.get('publisher'),
+            cover=cover,
+        )
+        return redirect('books-home')
+
+    context = {'form': form, 'collections': collections, 'genres': genres}
+    return render(request, 'book/book_form.html', context)
+
+@login_required(login_url='login')
+@seller_required
+def update_book(request, pk):
+    book = Book.objects.get(id=pk)
+    form = BookForm(instance=book)
+    collections = Collection.objects.all()
+    genres = Genre.objects.all()
+    if request.method == 'POST':
+        collection_name = request.POST.get('collection')
+        collection, create = Collection.objects.get_or_create(name=collection_name)
+        
+        genre_name = request.POST.get('genre')
+        genre, create = Genre.objects.get_or_create(name=genre_name)
+
+        cover = 'covers/default.jpeg'
+        if request.FILES:
+            cover = request.FILES['cover']
+        book.title = request.POST.get('title')
+        book.author = request.POST.get('author')
+        book.publisher = request.POST.get('publisher')
+        book.cover = cover
+        book.collection = collection
+        book.genre = genre
+        book.save()
+        return redirect('books-home')
+
+    context = {'form': form, 'collections': collections, 'genres': genres, 'book': book}
+    return render(request, 'book/book_form.html', context)
+

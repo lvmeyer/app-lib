@@ -1,0 +1,16 @@
+[
+	{
+		"model": "base.collection",
+		"pk": 1,
+		"fields": {
+			"name": "Harry-Potter"
+		}
+	},
+	{
+		"model": "base.collection",
+		"pk": 2,
+		"fields": {
+			"name": "Lord-of-the-Rings"
+		}
+	}
+]

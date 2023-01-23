@@ -48,3 +48,22 @@ class Message(models.Model):
 
   def __str__(self):
     return self.body[0:50]
+  
+  
+#BOOK
+
+class Collection(models.Model):
+  name = models.CharField(max_length=100)
+  
+class Genre(models.Model):
+  name = models.CharField(max_length=100)
+  
+class Book(models.Model):
+  title = models.CharField(max_length=100)
+  author = models.CharField(max_length=100)
+  cover = models.ImageField(upload_to='covers/', default='default.jpeg', null=True, blank=True)
+  publisher = models.CharField(max_length=100)
+  collection = models.ForeignKey(Collection, on_delete=models.SET_NULL, null=True)
+  genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, null=True)
+
+  

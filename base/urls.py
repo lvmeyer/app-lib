@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -20,6 +22,16 @@ urlpatterns = [
     path('forum/update-room/<str:pk>/', views.updateRoom, name='update-room'),
     path('forum/delete-room/<str:pk>/', views.deleteRoom, name='delete-room'),
     path('forum/delete-message/<str:pk>/', views.deleteMessage, name='delete-message'),
+    
+    # BOOK
+    path('books/', views.books, name='books-home'),
+    path('books/create-book', views.create_book, name='create-book'),
+    path('books/update-book/<str:pk>/', views.update_book, name='update-book'),
 
 ] 
+
+
+
+if settings.DEBUG:
+     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

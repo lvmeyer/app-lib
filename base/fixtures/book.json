@@ -1,0 +1,26 @@
+[
+	{
+		"model": "base.book",
+		"pk": 1,
+		"fields": {
+			"title": "1",
+            "collection": 1,
+            "author": "JK Rowling",
+            "publisher": "Bloomsbury",
+            "genre": 3,
+            "cover": "covers/default.jpeg"
+		}
+	},
+	{
+		"model": "base.book",
+		"pk": 2,
+		"fields": {
+			"title": "1",
+            "collection": 2,
+            "author": "Tolkien",
+            "publisher": "Allen & Unwin ",
+            "genre": 3,
+            "cover": "covers/default.jpeg"
+		}
+	}
+]

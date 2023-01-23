@@ -26,3 +26,7 @@ seeders:
 	docker-compose exec web python3 manage.py loaddata base/fixtures/topic.json
 	docker-compose exec web python3 manage.py loaddata base/fixtures/room.json
 	docker-compose exec web python3 manage.py loaddata base/fixtures/message.json
+	docker-compose exec web python3 manage.py loaddata base/fixtures/collection.json
+	docker-compose exec web python3 manage.py loaddata base/fixtures/genre.json
+	docker-compose exec web python3 manage.py loaddata base/fixtures/book.json
+
