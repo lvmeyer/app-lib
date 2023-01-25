@@ -8,7 +8,7 @@ from django.db.models import Q
 from django.db.models import Case, When, Value
 from applib.decorators import seller_required
 
-from .models import User, Room, Topic, Message, Book, Collection, Genre
+from .models import User, Room, Topic, Message, Book, Collection, Genre, LibraryBook
 from .forms import RoomForm, MyUserCreationForm, BookForm
 
 def home(request):
@@ -205,7 +205,15 @@ def books(request):
         Q(publisher__icontains=q) | 
         Q(author__icontains=q)
     )
-    context = {'books': books}
+    library_books = LibraryBook.objects.filter(
+         Q(book__collection__name__icontains=q) | 
+        Q(book__genre__name__icontains=q) | 
+        Q(book__title__icontains=q) | 
+        Q(book__publisher__icontains=q) | 
+        Q(book__author__icontains=q)
+    )
+        
+    context = {'books': books, 'library_books': library_books}
     return render(request, 'book/book.html', context) 
 
 @login_required(login_url='login')
@@ -266,3 +274,9 @@ def update_book(request, pk):
     context = {'form': form, 'collections': collections, 'genres': genres, 'book': book}
     return render(request, 'book/book_form.html', context)
 
+# ============== USER HOME ======================
+@login_required(login_url='login')
+def user_home(request):
+    library_books = LibraryBook.objects.filter(borrowingUser=request.user, borrowed=True)
+    context = {'libraryBooks': library_books}
+    return render(request, 'user/user_home.html', context)
