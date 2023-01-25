@@ -39,7 +39,10 @@
                 {% endif %}
             </div>
             <div class="bookList__item">
+                {% regroup library_books by book as libraryByBook %}
+
                 {% for book in books %}
+
                 <div class="bookItem" style="{% if user.role == 2 %} padding-top: 0 {% endif %}">
                     {% if user.role == 2 %}
 
@@ -80,8 +83,20 @@
                             </div>
                             <div>
                                 {{ book.publisher }}
+
+
+
                             </div>
-                            
+                            <div>
+                                find it in:
+                                {% for librariesForBook in libraryByBook %}
+                                {% if book.id == librariesForBook.grouper.id %}
+                                {% for libraries in librariesForBook.list %}
+                                {{libraries.library.name}}
+                                {% endfor %}
+                                {% endif %}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                     <div class="roomListRoom__meta" style="justify-content: end;">

@@ -1,0 +1,55 @@
+{% extends 'main.html' %} {% block content %}
+<main class="layout layout--2-bis">
+    <div class="container">
+
+        <div class="activities">
+            <div class="activities__header">
+                <h2>Book to return</h2>
+            </div>
+
+            <div class="activities__box">
+                <div class="activities__boxHeader roomListRoom__header">
+                    {% for libraryBook in libraryBooks %}
+                    <div class="bookItem" >
+                        {% if libraryBook.book.cover %}
+                        <img src="{{ libraryBook.book.cover.url }}" alt="cover" height="200" />
+                        {% endif %}
+                        <div class="roomListRoom__header">
+                            <div>
+                                <div class="title">
+                                    {{libraryBook.book.collection.name}} - {{ libraryBook.book.title }}
+                                </div>
+                                <div>
+                                    {{ libraryBook.book.author }} ({{ libraryBook.book.publisher }})
+
+                                </div>
+                                <div>
+                                    {{libraryBook.book.genre.name}}
+                                </div>
+                                <div>
+                                    <h3>
+                                    To {{libraryBook.library.name}} {% if libraryBook.library.localization %}  - ({{ libraryBook.library.localization.address }} {{ libraryBook.library.localization.city }}, {{ libraryBook.library.localization.zip_code }} {{ libraryBook.library.localization.country}}) {% endif %}
+                                </h3>
+                                <p>to return until {{libraryBook.date}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="roomList__header">
+            <div>
+                <h2> My reader groups</h2>
+                <p> </p>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+{% endblock content%}

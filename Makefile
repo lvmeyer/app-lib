@@ -1,7 +1,11 @@
-.PHONY: build start stop restart migrations migrate superuser
+.PHONY: build start stop restart migrations migrate superuser install
 
 build:
 	docker-compose build
+
+install:
+	docker-compose exec web python3 -m pip install Pillow
+
 
 start:
 	docker-compose up

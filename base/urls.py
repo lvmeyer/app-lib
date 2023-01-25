@@ -14,6 +14,7 @@ urlpatterns = [
     # USER
     path('update-user/', views.updateUser, name='update-user'),
     path('profile/<str:pk>/', views.userProfile, name='user-profile'),
+    path('home/', views.user_home, name='user-home'),
 
     # FORUM
     path('forum/', views.homeForum, name='forum-home'),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('books/', views.books, name='books-home'),
     path('books/create-book', views.create_book, name='create-book'),
     path('books/update-book/<str:pk>/', views.update_book, name='update-book'),
+    
 
 ] 
 
