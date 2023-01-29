@@ -30,6 +30,9 @@ urlpatterns = [
     path('books/update-book/<str:pk>/', views.update_book, name='update-book'),
     
 
+    # READING GROUP
+    path('reading_group/', views.homeReadingGroup, name='reading-group-home'),
+
 ] 
 
 
