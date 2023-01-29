@@ -16,7 +16,7 @@
                                 d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12 5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12 22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z">
                             </path>
                         </svg>
-                        <input name="q" placeholder="Search for books" />
+                        <input name="q" style="width:100%" placeholder="Search for books (search by book information or library name)" />
                     </label>
                 </form>
                 <div class="mobile-menuItems"></div>
@@ -89,13 +89,36 @@
                             </div>
                             <div>
                                 find it in:
-                                {% for librariesForBook in libraryByBook %}
-                                {% if book.id == librariesForBook.grouper.id %}
-                                {% for libraries in librariesForBook.list %}
-                                {{libraries.library.name}}
-                                {% endfor %}
-                                {% endif %}
-                                {% endfor %}
+                                <button class="btn btn--main modal-button" id="AllLibrary_{{book.id}}">All
+                                    libraries</button>
+                                <div id="AllLibrary_{{book.id}}" class="modal">
+
+                                    <div class="modal-content">
+                                        <span class="close" id="AllLibrary_{{book.id}}">&times;</span>
+                                        {% for librariesForBook in libraryByBook %}
+                                        {% if book.id == librariesForBook.grouper.id %}
+                                        {% for libraries in librariesForBook.list %}
+                                        <h4>You can borrowed the book {{book.collection.name}} - {{book.title}} in this
+                                        libraries :</h4>
+                                        <div class="library_info">
+                                            <h3>{{ libraries.library.name }}</h3> 
+                                        {% if libraries.borrowed %}
+                                            <p> Only available after {{libraries.date}}</p>
+                                        {% endif %}
+                                            <div class="localization">
+                                                <p>Localization : </p>
+                                                <p>{{libraries.library.localization.adresse}} {{libraries.library.localization.city}}, {{libraries.library.localization.zipCode}}</p>
+                                                <p>{{libraries.library.localization.country}}</p>
+                                            </div>
+
+                                        </div>
+                                        {% endfor %}
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>

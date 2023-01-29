@@ -67,3 +67,40 @@ if (photoInput)
 // Scroll to Bottom
 const conversationThread = document.querySelector(".room__box");
 if (conversationThread) conversationThread.scrollTop = conversationThread.scrollHeight;
+
+//Modal
+// Get the modal
+var modals = document.querySelectorAll(".modal");
+
+// Get the button that opens the modal
+let btns = document.querySelectorAll(".modal-button");
+
+// Get the <span> element that closes the modal
+var spans = document.querySelectorAll(".close");
+
+
+// When the user clicks on the button, open the modal
+btns.forEach(bouton => {
+  bouton.onclick = function () {
+    document.querySelector(`.modal#${bouton.id}`).style.display = "block";
+  }
+
+});
+
+
+// When the user clicks on <span> (x), close the modal
+spans.forEach(span => {
+  span.onclick = function () {
+    document.querySelector(`.modal#${span.id}`).style.display = "none";
+  }
+});
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  modals.forEach(modal => {
+
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  });
+}
