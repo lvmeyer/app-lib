@@ -74,7 +74,7 @@ class Book(models.Model):
 class Localization(models.Model):
   adresse = models.CharField(max_length=100)
   city = models.CharField(max_length=100)
-  zipCode = models.IntegerField
+  zipCode = models.IntegerField(default=0)
   country = models.CharField(max_length=100)
 
 
@@ -95,10 +95,7 @@ class LibraryBook(models.Model):
   borrowed = models.BooleanField(default=False)
   date = models.DateTimeField(null=True)
   
-  def save(self, *args, **kwargs):
-        if self.date is None:
-            self.date = datetime.now() + datetime.timedelta(days=30)
-        super(LibraryBook, self).save(*args, **kwargs)
+
   class Meta:
     ordering = ['-date']
   def __str__(self):

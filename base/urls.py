@@ -28,6 +28,7 @@ urlpatterns = [
     path('books/', views.books, name='books-home'),
     path('books/create-book', views.create_book, name='create-book'),
     path('books/update-book/<str:pk>/', views.update_book, name='update-book'),
+    path('books/<str:pk_book>/borrow/<str:pk_library>', views.borrow_book, name='borrow-book'),
     
 
     # READING GROUP

@@ -7,6 +7,7 @@ from django.utils.decorators import method_decorator
 from django.db.models import Q
 from django.db.models import Case, When, Value
 from applib.decorators import seller_required
+from datetime import datetime, timedelta
 
 
 from .models import User, Room, Topic, Message, Book, Collection, Genre, LibraryBook, ReadingGroup
@@ -204,15 +205,18 @@ def books(request):
         Q(genre__name__icontains=q) | 
         Q(title__icontains=q) | 
         Q(publisher__icontains=q) | 
-        Q(author__icontains=q)
+        Q(author__icontains=q) |
+        Q(libraries__name__icontains=q)
     )
+    user_id = request.user.id
     library_books = LibraryBook.objects.filter(
          Q(book__collection__name__icontains=q) | 
         Q(book__genre__name__icontains=q) | 
         Q(book__title__icontains=q) | 
         Q(book__publisher__icontains=q) | 
-        Q(book__author__icontains=q)
-    )
+        Q(book__author__icontains=q) |
+        Q(library__name__icontains=q)
+    ).exclude(borrowingUser__id=user_id)
         
     context = {'books': books, 'library_books': library_books}
     return render(request, 'book/book.html', context) 
@@ -233,7 +237,7 @@ def create_book(request):
         cover = 'covers/default.jpeg'
         if request.FILES:
             cover = request.FILES['cover']
-        Book.objects.create(
+        book = Book.objects.create(
             genre=genre,
             collection=collection,
             title=request.POST.get('title'),
@@ -241,6 +245,8 @@ def create_book(request):
             publisher=request.POST.get('publisher'),
             cover=cover,
         )
+        
+            
         return redirect('books-home')
 
     context = {'form': form, 'collections': collections, 'genres': genres}
@@ -286,4 +292,13 @@ def user_home(request):
 
 def homeReadingGroup(request):
     return render(request, 'reading/home_reading_group.html')
+
+@login_required(login_url='login')
+def borrow_book(request, pk_book, pk_library):
+    library_book, create = LibraryBook.objects.get_or_create(book_id=pk_book, library_id=pk_library)
+    library_book.borrowingUser = request.user
+    library_book.borrowed = True
+    library_book.date = datetime.now() + timedelta(days=30)
+    library_book.save()
+    return redirect('user-home')
 
