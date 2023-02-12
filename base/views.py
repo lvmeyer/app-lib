@@ -10,8 +10,8 @@ from applib.decorators import seller_required
 from datetime import datetime, timedelta
 
 
-from .models import User, Room, Topic, Message, Book, Collection, Genre, LibraryBook, ReadingGroup, Library, Session
-from .forms import RoomForm, MyUserCreationForm, BookForm, LibraryBookForm
+from .models import User, Room, Topic, Message, Book, Collection, Genre, LibraryBook, ReadingGroup, Library, Session, Participation
+from .forms import RoomForm, MyUserCreationForm, BookForm, LibraryBookForm, ReadingGroupForm, SessionForm
 
 def home(request):
     user=request.user  
@@ -290,29 +290,44 @@ def update_book(request, pk):
 
 @seller_required
 def add_to_library(request, pk):
-    test = Library.objects.filter(user_id=request.user.id)
-    if test:
-        library, create = Library.objects.get_or_create(user_id=request.user.id)
-        library_book, create = LibraryBook.objects.get_or_create(book_id=pk, library_id=library.id)
-        library_book.borrowed = False
-        library_book.date = None
-        library_book.save()
+    library, create = Library.objects.get_or_create(user_id=request.user.id)
+    library_book, create = LibraryBook.objects.get_or_create(book_id=pk, library_id=library.id)
+   
     return redirect('books-home')
 
 # ============== USER HOME ======================
+
 @login_required(login_url='login')
 def user_home(request):
     library_books = LibraryBook.objects.filter(borrowingUser=request.user, borrowed=True)
     sessions = Session.objects.filter(date_seance__gt= datetime.now() ,group__users__id=request.user.id).order_by('date_seance')
-    #groups = request.user.groups.filter( date_finale__gt= datetime.now()).order_by('session__date_seance')
     context = {'libraryBooks': library_books, 'sessions': sessions}
     return render(request, 'user/user_home.html', context)
 
 # ============== READING GROUP HOME ======================
 
-def homeReadingGroup(request):
-    return render(request, 'reading/home_reading_group.html')
+@login_required(login_url='login')
+def home_reading_group(request):
+    user = request.user
+    groups = ReadingGroup.objects.all()
+    if user.role == 2:
+        groups = ReadingGroup.objects.filter(library__user_id=user.id)
+    return render(request, 'reading/home_reading_group.html', {'groups': groups})
 
+@login_required(login_url='login')
+def participe_reading_group(request, pk):
+    user = request.user
+    particpation = Participation.objects.get_or_create(user_id=user.id, group_id=pk)
+    return redirect('reading-group-home')
+
+@login_required(login_url='login')
+def leave_reading_group(request, pk):
+    user = request.user
+    particpation = Participation.objects.get(user_id=user.id, group_id=pk)
+    particpation.delete()
+    return redirect('reading-group-home')
+
+# ============== LIBRARY ======================
 @seller_required
 def borrow_books(request):
     user=request.user
@@ -341,4 +356,54 @@ def borrow_book(request, pk):
        return redirect('borrow-by-user')
     context = {'form': form, 'users': users}
     return render(request, 'book/library_book_form.html', context)
+
+@seller_required
+def create_reading_group(request):
+    form = ReadingGroupForm()
+    if request.method == 'POST':
+        user=request.user
+        library, create = Library.objects.get_or_create(user_id=user.id)
+        group = ReadingGroup.objects.create(
+            title=request.POST.get('title'),
+            description=request.POST.get('description'),
+            library = library,
+            date_finale=request.POST.get('date_finale')
+        )
+        return redirect('reading-group-home')
+    context = {'form': form}
+    return render(request, 'reading/reading_group_form.html', context)
+
+@seller_required
+def update_reading_group(request, pk):
+    group = ReadingGroup.objects.get(id=pk)
+    form = ReadingGroupForm(instance=group)
+    if request.method == 'POST':
+        group.title=request.POST.get('title')
+        group.description=request.POST.get('description')
+        group.date_finale=request.POST.get('date_finale')
+        user=request.user
+        group.save()
+        return redirect('reading-group-home')
+    context = {'form': form}
+    return render(request, 'reading/reading_group_form.html', context)
+
+@seller_required
+def delete_reading_group(request, pk):
+    group = ReadingGroup.objects.get(id=pk)
+    group.delete()
+    return redirect('borrow-by-user')
+
+def create_session(request, pk):
+    form = SessionForm()
+    if request.method == 'POST':
+        group = ReadingGroup.objects.get(id=pk)
+        Session.objects.create(
+            date_seance=request.POST.get('date_seance'),
+            group = group,
+        )
+        return redirect('reading-group-home')
+    context = {'form': form}
+    return render(request, 'reading/session_form.html', context)
+    
+
 

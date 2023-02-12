@@ -36,9 +36,15 @@ urlpatterns = [
     
 
     # READING GROUP
-    path('reading_group/', views.homeReadingGroup, name='reading-group-home'),
-
-] 
+    path('reading_group/', views.home_reading_group, name='reading-group-home'),
+    path('reading_group/create-reading-group/', views.create_reading_group, name='create-reading-group'),
+    path('reading_group/update-reading-group/<str:pk>/', views.update_reading_group, name='update-reading-group'),
+    path('reading_group/delete-reading-group/<str:pk>/', views.delete_reading_group, name='delete-reading-group'),
+    path('reading_group/<str:pk>/participate', views.participe_reading_group, name='particate-reading'),
+    path('reading_group/<str:pk>/leave', views.leave_reading_group, name='leave-reading'),
+    path('reading_group/<str:pk>/session', views.create_session, name='create-session'),
+    
+]   
 
 
 
