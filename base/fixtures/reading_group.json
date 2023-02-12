@@ -1,0 +1,35 @@
+[
+	{
+		"model": "base.readinggroup",
+		"pk": 1,
+		"fields": {
+			"title": "Discussion livre aventure",
+            "description": "On donnera un livre à lire avec de l'action",
+            "creator": 1, 
+            "sessions": 1,  
+            "date_finale": "2023-02-09T00:00:00Z"
+		}
+	},
+	{
+		"model": "base.readinggroup",
+		"pk": 2,
+		"fields": {
+			"title": "Discussion livre suspens",
+            "description": "On donnera un livre à lire avec du suspens",
+            "creator": 2, 
+            "sessions": 1,  
+            "date_finale": "2023-02-22T00:00:00Z"
+		}
+	},
+	{
+		"model": "base.readinggroup",
+		"pk": 3,
+		"fields": {
+			"title": "Discussion livre romance",
+            "description": "On donnera un livre à lire avec de la romance",
+            "creator": 1, 
+            "sessions": 2,  
+            "date_finale": "2023-03-09T00:00:00Z"
+		}
+	}
+]

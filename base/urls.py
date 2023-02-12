@@ -31,6 +31,9 @@ urlpatterns = [
     path('books/<str:pk_book>/borrow/<str:pk_library>', views.borrow_book, name='borrow-book'),
     
 
+    # READING GROUP
+    path('reading_group/', views.homeReadingGroup, name='reading-group-home'),
+
 ] 
 
 
