@@ -7,6 +7,10 @@ make build
 ```
 
 ```bash
+make install
+```
+
+```bash
 make start
 ```
 
@@ -20,6 +24,18 @@ make migrate
 
 ```bash
 make superuser
+```
+
+```bash
+make seeders
+```
+
+```bash
+make restart
+```
+
+```bash
+make stop
 ```
 
 ## Commands
