@@ -3,12 +3,11 @@
 build:
 	docker-compose build
 
-install:
-	docker-compose exec web python3 -m pip install Pillow
-
-
 start:
 	docker-compose up
+
+install:
+	docker-compose exec web python3 -m pip install Pillow
 
 stop:
 	docker-compose down
@@ -21,6 +20,7 @@ migrations:
 
 migrate:
 	docker-compose exec web python3 manage.py migrate
+
 
 superuser:
 	docker-compose exec web python3 manage.py createsuperuser

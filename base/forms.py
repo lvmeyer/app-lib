@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Room, Book
+from .models import User, Room, Book, LibraryBook
 
 class MyUserCreationForm(UserCreationForm):
     class Meta:
@@ -24,3 +24,9 @@ class BookForm(ModelForm):
     class Meta:
         model = Book
         fields = '__all__'
+        
+class LibraryBookForm(ModelForm):
+    class Meta:
+        model = LibraryBook
+        fields = '__all__'
+        exclude = [ 'book', 'library', 'borrowed', 'date']

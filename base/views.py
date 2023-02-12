@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -10,11 +10,18 @@ from applib.decorators import seller_required
 from datetime import datetime, timedelta
 
 
-from .models import User, Room, Topic, Message, Book, Collection, Genre, LibraryBook, ReadingGroup
-from .forms import RoomForm, MyUserCreationForm, BookForm
+from .models import User, Room, Topic, Message, Book, Collection, Genre, LibraryBook, ReadingGroup, Library
+from .forms import RoomForm, MyUserCreationForm, BookForm, LibraryBookForm
 
 def home(request):
-    return render(request, 'base/home.html')
+    user=request.user  
+    if not (user.id ):
+        return render(request, 'base/home.html')
+    elif (user.role == 2):
+        return HttpResponseRedirect('/books/borrowed-books')
+    else:
+        return HttpResponseRedirect('/home')
+    
 
 # ============== AUTH ======================
 def loginPage(request):
@@ -216,7 +223,7 @@ def books(request):
         Q(book__publisher__icontains=q) | 
         Q(book__author__icontains=q) |
         Q(library__name__icontains=q)
-    ).exclude(borrowingUser__id=user_id)
+    ).exclude(borrowingUser__id=user_id)    
         
     context = {'books': books, 'library_books': library_books}
     return render(request, 'book/book.html', context) 
@@ -281,11 +288,23 @@ def update_book(request, pk):
     context = {'form': form, 'collections': collections, 'genres': genres, 'book': book}
     return render(request, 'book/book_form.html', context)
 
+@seller_required
+def add_to_library(request, pk):
+    test = Library.objects.filter(user_id=request.user.id)
+    if test:
+        library, create = Library.objects.get_or_create(user_id=request.user.id)
+        library_book, create = LibraryBook.objects.get_or_create(book_id=pk, library_id=library.id)
+        library_book.borrowed = False
+        library_book.date = None
+        library_book.save()
+    return redirect('books-home')
+
 # ============== USER HOME ======================
 @login_required(login_url='login')
 def user_home(request):
     library_books = LibraryBook.objects.filter(borrowingUser=request.user, borrowed=True)
-    context = {'libraryBooks': library_books}
+    #user_groups = ReadingGroup.objects.filter(users=request.user)
+    context = {'libraryBooks': library_books, }
     return render(request, 'user/user_home.html', context)
 
 # ============== READING GROUP HOME ======================
@@ -293,17 +312,32 @@ def user_home(request):
 def homeReadingGroup(request):
     return render(request, 'reading/home_reading_group.html')
 
-@login_required(login_url='login')
-def borrow_book(request, pk_book, pk_library):
-    library_book, create = LibraryBook.objects.get_or_create(book_id=pk_book, library_id=pk_library)
-    library_book.borrowingUser = request.user
-    library_book.borrowed = True
-    library_book.date = datetime.now() + timedelta(days=30)
-    library_book.save()
-    return redirect('user-home')
-
 @seller_required
 def borrow_books(request):
-   
-    return render(request, 'book/borrowed-books.html')
+    user=request.user
+    library, create = Library.objects.get_or_create(user_id=user.id)
+    context = {'libraryBooks': library.librarybook_set.all()}
+    return render(request, 'book/borrowed-books.html', context)
+
+@seller_required
+def return_book(request, pk):
+    library_book = LibraryBook.objects.get(id=pk)
+    library_book.borrowed = False
+    library_book.borrowingUser = None
+    library_book.save()
+    return redirect('borrow-by-user')
+
+@seller_required
+def borrow_book(request, pk):
+    form = LibraryBookForm(instance=LibraryBook)
+    users = User.objects.filter(role=1)
+    if request.method == 'POST':
+       library_book = LibraryBook.objects.get(id=pk)
+       library_book.borrowed = True
+       library_book.borrowingUser = User.objects.get(id=request.POST.get('borrowingUser'))
+       library_book.date = datetime.now() + timedelta(days=30)
+       library_book.save()
+       return redirect('borrow-by-user')
+    context = {'form': form, 'users': users}
+    return render(request, 'book/library_book_form.html', context)
 
