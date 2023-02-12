@@ -10,7 +10,7 @@
             <div class="activities__box">
                 <div class="activities__boxHeader roomListRoom__header">
                     {% for libraryBook in libraryBooks %}
-                    <div class="bookItem" >
+                    <div class="bookItem">
                         {% if libraryBook.book.cover %}
                         <img src="{{ libraryBook.book.cover.url }}" alt="cover" height="200" />
                         {% endif %}
@@ -28,28 +28,64 @@
                                 </div>
                                 <div>
                                     <h3>
-                                    To {{libraryBook.library.name}} {% if libraryBook.library.localization %}  - ({{ libraryBook.library.localization.address }} {{ libraryBook.library.localization.city }}, {{ libraryBook.library.localization.zip_code }} {{ libraryBook.library.localization.country}}) {% endif %}
-                                </h3>
-                                <p>to return until {{libraryBook.date}}</p>
+                                        To {{libraryBook.library.name}} {% if libraryBook.library.localization %} - ({{
+                                        libraryBook.library.localization.address }} {{
+                                        libraryBook.library.localization.city }}, {{
+                                        libraryBook.library.localization.zip_code }} {{
+                                        libraryBook.library.localization.country}}) {% endif %}
+                                    </h3>
+                                    <p>to return until {{libraryBook.date}}</p>
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     {% endfor %}
+                    {% if libraryBooks|length == 0 %}
+                    <p> No book to return</p>
+                    {% endif %}
 
                 </div>
             </div>
         </div>
+        <div class="activities" style="margin-left: 10px; margin-right: 10px">
+            <div class="activities__header">
+                <h2>My reader group sessions</h2>
+            </div>
 
-        <div class="roomList__header">
-            <div>
-                <h2> My reader groups</h2>
-                <p> </p>
+            <div class="activities__box">
+                <div class="activities__boxHeader " style="margin-bottom: 20px;">
+                    {% for session in sessions %}
+                    <div class=" library_info" style="margin-bottom: 20px; margin-top: 20px;    margin-bottom: 2.4rem;
+                    background-color: var(--color-dark);
+                    border-radius: 1rem;
+                    padding: 2rem;">
+                        <div>
+                            <div class="title">
+                                Reading Group:
+                                {{session.group.title}}
+                            </div>
+                            <div>
+                                {{session.group.description}}
+                            </div>
+                            <div>
+                                <h3>
+                                    
+
+                                   Session on {{session.date_seance}}
+
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                </div>
             </div>
         </div>
-
     </div>
+   
+
 
 </main>
 {% endblock content%}

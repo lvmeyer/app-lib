@@ -10,7 +10,7 @@ from applib.decorators import seller_required
 from datetime import datetime, timedelta
 
 
-from .models import User, Room, Topic, Message, Book, Collection, Genre, LibraryBook, ReadingGroup, Library
+from .models import User, Room, Topic, Message, Book, Collection, Genre, LibraryBook, ReadingGroup, Library, Session
 from .forms import RoomForm, MyUserCreationForm, BookForm, LibraryBookForm
 
 def home(request):
@@ -303,8 +303,9 @@ def add_to_library(request, pk):
 @login_required(login_url='login')
 def user_home(request):
     library_books = LibraryBook.objects.filter(borrowingUser=request.user, borrowed=True)
-    #user_groups = ReadingGroup.objects.filter(users=request.user)
-    context = {'libraryBooks': library_books, }
+    sessions = Session.objects.filter(date_seance__gt= datetime.now() ,group__users__id=request.user.id).order_by('date_seance')
+    #groups = request.user.groups.filter( date_finale__gt= datetime.now()).order_by('session__date_seance')
+    context = {'libraryBooks': library_books, 'sessions': sessions}
     return render(request, 'user/user_home.html', context)
 
 # ============== READING GROUP HOME ======================
