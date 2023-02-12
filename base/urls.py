@@ -28,8 +28,10 @@ urlpatterns = [
     path('books/', views.books, name='books-home'),
     path('books/create-book', views.create_book, name='create-book'),
     path('books/update-book/<str:pk>/', views.update_book, name='update-book'),
-    path('books/<str:pk_book>/borrow/<str:pk_library>', views.borrow_book, name='borrow-book'),
     path('books/borrowed-books/', views.borrow_books, name='borrow-by-user'),
+    path('books/library/<str:pk>/', views.add_to_library, name='add-to-library'),
+    path('books/borrow/<str:pk>/', views.borrow_book, name='borrow-book'),
+    path('books/return-book/<str:pk>/', views.return_book, name='return-book'),
 
     
 

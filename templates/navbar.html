@@ -9,7 +9,9 @@
 		<a href="{% url 'forum-home' %}">Forum</a>
 
 		<a href="{% url 'books-home' %}">Book</a>
-		<a href="{% url 'borrow-by-user' %}">Borrow</a>
+		{% if request.user.is_authenticated and request.user.role == 2 %}
+			<a href="{% url 'borrow-by-user' %}">Borrow</a>
+		{% endif %}
 
 		<a href="{% url 'reading-group-home' %}">Reading Group</a>
 
