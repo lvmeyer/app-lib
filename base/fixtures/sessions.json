@@ -1,0 +1,16 @@
+[
+    {
+		"model": "base.sessions",
+		"pk": 1,
+		"fields": {
+			"date_session": "2023-04-02 03:00:00"
+		}
+	},
+	{
+		"model": "base.sessions",
+		"pk": 2,
+		"fields": {
+			"date_session": "2023-02-06 03:00:00"
+		}
+	}
+]

@@ -49,8 +49,7 @@ class Message(models.Model):
 
   def __str__(self):
     return self.body[0:50]
-  
-  
+
 # BOOK
 
 class Collection(models.Model):
@@ -102,6 +101,24 @@ class LibraryBook(models.Model):
   def __str__(self):
         return "{}_{}".format(self.library.__str__(), self.book.__str__())
 
-  
 
+
+# READING GROUP
+class Session(models.Model):
+  date_seance = models.DateTimeField('date de la seance')
   
+  def __str__(self):
+    return self.date_seance
+
+class ReadingGroup(models.Model):
+  title        = models.CharField(max_length=100)
+  description  = models.CharField(max_length=100)
+  creator      = models.ForeignKey(User, on_delete=models.CASCADE)
+  sessions     = models.ForeignKey(Session, on_delete=models.CASCADE)
+  date_finale  = models.DateTimeField(null=True)
+  updated      = models.DateTimeField(auto_now=True)
+  created      = models.DateTimeField(auto_now_add=True)
+
+  def __str__(self):
+    return self.title
+

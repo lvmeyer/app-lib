@@ -33,6 +33,9 @@ urlpatterns = [
 
     
 
+    # READING GROUP
+    path('reading_group/', views.homeReadingGroup, name='reading-group-home'),
+
 ] 
 
 

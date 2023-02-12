@@ -9,7 +9,8 @@ from django.db.models import Case, When, Value
 from applib.decorators import seller_required
 from datetime import datetime, timedelta
 
-from .models import User, Room, Topic, Message, Book, Collection, Genre, LibraryBook
+
+from .models import User, Room, Topic, Message, Book, Collection, Genre, LibraryBook, ReadingGroup
 from .forms import RoomForm, MyUserCreationForm, BookForm
 
 def home(request):
@@ -287,6 +288,11 @@ def user_home(request):
     context = {'libraryBooks': library_books}
     return render(request, 'user/user_home.html', context)
 
+# ============== READING GROUP HOME ======================
+
+def homeReadingGroup(request):
+    return render(request, 'reading/home_reading_group.html')
+
 @login_required(login_url='login')
 def borrow_book(request, pk_book, pk_library):
     library_book, create = LibraryBook.objects.get_or_create(book_id=pk_book, library_id=pk_library)
@@ -300,3 +306,4 @@ def borrow_book(request, pk_book, pk_library):
 def borrow_books(request):
    
     return render(request, 'book/borrowed-books.html')
+
