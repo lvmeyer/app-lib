@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
                 ('date_finale', models.DateTimeField(null=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('creator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('library', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='base.library')),
                 ('users', models.ManyToManyField(related_name='user', through='base.Participation', to=settings.AUTH_USER_MODEL)),
             ],
         ),

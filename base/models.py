@@ -109,12 +109,11 @@ class LibraryBook(models.Model):
 class ReadingGroup(models.Model):
   title        = models.CharField(max_length=100)
   description  = models.CharField(max_length=100)
-  creator      = models.ForeignKey(User, on_delete=models.CASCADE)
+  library      = models.ForeignKey(Library, on_delete=models.CASCADE)
   date_finale  = models.DateTimeField(null=True)
   updated      = models.DateTimeField(auto_now=True)
   created      = models.DateTimeField(auto_now_add=True)
   users        = models.ManyToManyField(User, through='Participation', related_name='user')
-
   def __str__(self):
     return self.title
   
