@@ -12,7 +12,7 @@ class User(AbstractUser):
       (SELLER, 'Seller'),
   )
   role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True)
-
+  reading_group = models.ManyToManyField(ReadingGroup, through='Participation')
 
 # FORUM
 class Topic(models.Model):
@@ -106,7 +106,8 @@ class LibraryBook(models.Model):
 # READING GROUP
 class Session(models.Model):
   date_seance = models.DateTimeField('date de la seance')
-  
+  user_id      = models.ManyToManyField(User, through='Participation')
+
   def __str__(self):
     return self.date_seance
 
@@ -122,3 +123,20 @@ class ReadingGroup(models.Model):
   def __str__(self):
     return self.title
 
+# PARTICIPATION
+class Participation(models.Model):
+  user_id            = models.ForeignKey(User, on_delete=models.CASCADE)
+  reading_group_id   = models.ForeignKey(ReadingGroup, on_delete=models.CASCADE)
+
+# Choice
+class Choice(models.Model):
+  title              = models.CharField(max_length=100)
+  session_id         = models.ForeignKey(Session, on_delete=models.CASCADE)
+
+  def __str__(self):
+      return self.title
+
+# ANSWER SELECTED
+class AnswerSelected(models.Model):
+  user_id            = models.ForeignKey(User, on_delete=models.CASCADE)
+  answer_id          = models.ForeignKey(Session, on_delete=models.CASCADE)
