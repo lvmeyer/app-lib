@@ -295,3 +295,8 @@ def borrow_book(request, pk_book, pk_library):
     library_book.date = datetime.now() + timedelta(days=30)
     library_book.save()
     return redirect('user-home')
+
+@seller_required
+def borrow_books(request):
+   
+    return render(request, 'book/borrowed-books.html')
