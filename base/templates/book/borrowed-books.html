@@ -4,30 +4,34 @@
 		<div class="layout__box">
 			<div class="layout__boxHeader">
 			</div>
-			<p>Borrow Book</p>
+			<p class="title" style="margin-left: 50px;font-size: 30px; margin-top: 10px">Borrow Book</p>
 
-			<div class="layout__body">
+			<div class="layout__body activities__boxHeader ">
 				{% for libraryBook in libraryBooks %}
-				<div class="library_info">
-					{{ libraryBook.book.collection.name}} : {{ libraryBook.book.title }}
+				<div class="library_info" style="margin-bottom: 20px; margin-top: 20px;    margin-bottom: 2.4rem;
+				background-color: var(--color-dark);
+				border-radius: 1rem;
+				padding: 2rem;">
+					<div style="font-size: 20px;">{{ libraryBook.book.collection.name}} : {{ libraryBook.book.title }}</div>
 					{% if libraryBook.borrowed %}
 					must be return by {{ libraryBook.borrowingUser.username }} before {{ libraryBook.date }}
-					<a class="btn btn--main" href="{% url 'return-book' libraryBook.id %}">
-						
-						has been returned
-					</a>
+					<div><a class="btn btn--main" href="{% url 'return-book' libraryBook.id %}">
+
+							Register like has been returned
+						</a></div>
 					{% else %}
 					is available to borrow
-					 <a class="btn btn--main" href="{% url 'borrow-book' libraryBook.id %}">
-						<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2" height="20" viewBox="0 0 32 32">
-							<title>add</title>
-							<path
-								d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z">
-							</path>
-						</svg>
-						Register a borrower
-					</a>
-
+					<div > <a class="btn btn--main" href="{% url 'borrow-book' libraryBook.id %}">
+							<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="2" height="20"
+								viewBox="0 0 32 32">
+								<title>add</title>
+								<path
+									d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z">
+								</path>
+							</svg>
+							Register a borrower
+						</a>
+					</div>
 					{% endif %}
 				</div>
 				{% endfor %}

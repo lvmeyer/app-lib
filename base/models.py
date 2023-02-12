@@ -12,7 +12,7 @@ class User(AbstractUser):
       (SELLER, 'Seller'),
   )
   role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, blank=True, null=True)
-  reading_group = models.ManyToManyField(ReadingGroup, through='Participation')
+  groups = models.ManyToManyField('ReadingGroup', through='Participation', related_name='group')
 
 # FORUM
 class Topic(models.Model):
@@ -104,29 +104,31 @@ class LibraryBook(models.Model):
 
 
 # READING GROUP
-class Session(models.Model):
-  date_seance = models.DateTimeField('date de la seance')
-  user_id      = models.ManyToManyField(User, through='Participation')
 
-  def __str__(self):
-    return self.date_seance
 
 class ReadingGroup(models.Model):
   title        = models.CharField(max_length=100)
   description  = models.CharField(max_length=100)
   creator      = models.ForeignKey(User, on_delete=models.CASCADE)
-  sessions     = models.ForeignKey(Session, on_delete=models.CASCADE)
   date_finale  = models.DateTimeField(null=True)
   updated      = models.DateTimeField(auto_now=True)
   created      = models.DateTimeField(auto_now_add=True)
+  users        = models.ManyToManyField(User, through='Participation', related_name='user')
 
   def __str__(self):
     return self.title
+  
+class Session(models.Model):
+  date_seance = models.DateTimeField('date de la seance')
+  group = models.ForeignKey(ReadingGroup, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return self.date_seance
 
 # PARTICIPATION
 class Participation(models.Model):
-  user_id            = models.ForeignKey(User, on_delete=models.CASCADE)
-  reading_group_id   = models.ForeignKey(ReadingGroup, on_delete=models.CASCADE)
+  user           = models.ForeignKey(User, on_delete=models.CASCADE)
+  group   = models.ForeignKey(ReadingGroup, on_delete=models.CASCADE)
 
 # Choice
 class Choice(models.Model):
